@@ -1,0 +1,13 @@
+{
+  "General": { "shift": 0.0 },
+  "Pediatric": { "shift": 0.0 },
+  "Orthodontics": { "shift": -0.03 },
+  "Periodontic": { "shift": -0.1 },
+  "Endodontics": { "shift": -0.05 },
+
+  "Cosmetic": { "shift": -0.1 },
+  "Oral Surgery": { "shift": -0.2 },
+  "Prosthodontics": { "shift": -0.3 },
+  "Dental Public Health": { "shift": 0.2 },
+  "Oral Pathology": { "shift": -0.1 }
+}

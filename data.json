@@ -1,0 +1,102 @@
+{
+  "10001": {
+    "lowBase": 0.6,
+    "highBase": 0.8,
+    "AgentName": "John Doe"
+  },
+  "10002": {
+    "lowBase": 0.7,
+    "highBase": 0.9,
+    "AgentName": "Jane Smith"
+  },
+  "10003": {
+    "lowBase": 0.5,
+    "highBase": 0.7,
+    "AgentName": "Bob Johnson"
+  },
+  "10004": {
+    "lowBase": 0.8,
+    "highBase": 0.9,
+    "AgentName": "Alice Williams"
+  },
+  "10005": {
+    "lowBase": 0.6,
+    "highBase": 0.8,
+    "AgentName": "Charlie Brown"
+  },
+  "10006": {
+    "lowBase": 0.7,
+    "highBase": 0.9,
+    "AgentName": "Daisy Duck"
+  },
+  "10007": {
+    "lowBase": 0.5,
+    "highBase": 0.7,
+    "AgentName": "Donald Duck"
+  },
+  "10008": {
+    "lowBase": 0.8,
+    "highBase": 0.9,
+    "AgentName": "Mickey Mouse"
+  },
+  "10009": {
+    "lowBase": 0.6,
+    "highBase": 0.8,
+    "AgentName": "Goofy"
+  },
+  "10010": {
+    "lowBase": 0.7,
+    "highBase": 0.9,
+    "AgentName": "Pluto"
+  },
+  "10011": {
+    "lowBase": 0.5,
+    "highBase": 0.7,
+    "AgentName": "Winnie the Pooh"
+  },
+  "10012": {
+    "lowBase": 0.8,
+    "highBase": 0.9,
+    "AgentName": "Eeyore"
+  },
+  "10013": {
+    "lowBase": 0.6,
+    "highBase": 0.8,
+    "AgentName": "Tigger"
+  },
+  "10014": {
+    "lowBase": 0.7,
+    "highBase": 0.9,
+    "AgentName": "Rabbit"
+  },
+  "10015": {
+    "lowBase": 0.5,
+    "highBase": 0.7,
+    "AgentName": "Owl"
+  },
+  "10016": {
+    "lowBase": 0.8,
+    "highBase": 0.9,
+    "AgentName": "Piglet"
+  },
+  "10017": {
+    "lowBase": 0.6,
+    "highBase": 0.8,
+    "AgentName": "Pooh Bear"
+  },
+  "10018": {
+    "lowBase": 0.7,
+    "highBase": 0.9,
+    "AgentName": "Kanga"
+  },
+  "10019": {
+    "lowBase": 0.5,
+    "highBase": 0.7,
+    "AgentName": "Roo"
+  },
+  "10020": {
+    "lowBase": 0.8,
+    "highBase": 0.9,
+    "AgentName": "Eeyore"
+  }
+}

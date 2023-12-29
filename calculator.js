@@ -1,159 +1,102 @@
-
-  // Existing data structures
-  const zipCodeData = {
-    "90210": {
-        "highBaseModifier": 95,
-        "lowBaseModifier": 70,
-        "agentName": "Agent Beverly"
-    },
-    "10001": {
-        "highBaseModifier": 85,
-        "lowBaseModifier": 65,
-        "agentName": "Agent York"
-    },
-    "60610": {
-        "highBaseModifier": 100,
-        "lowBaseModifier": 75,
-        "agentName": "Agent Chicago"
-    },
-    "77005": {
-        "highBaseModifier": 90,
-        "lowBaseModifier": 55,
-        "agentName": "Agent Houston"
-    },
-    "02108": {
-        "highBaseModifier": 80,
-        "lowBaseModifier": 60,
-        "agentName": "Agent Boston"
-    },
-    "94105": {
-        "highBaseModifier": 95,
-        "lowBaseModifier": 80,
-        "agentName": "Agent Francisco"
-    },
-    "30309": {
-        "highBaseModifier": 85,
-        "lowBaseModifier": 50,
-        "agentName": "Agent Atlanta"
-    },
-    "98101": {
-        "highBaseModifier": 88,
-        "lowBaseModifier": 68,
-        "agentName": "Agent Seattle"
-    },
-    "33131": {
-        "highBaseModifier": 92,
-        "lowBaseModifier": 72,
-        "agentName": "Agent Miami"
-    },
-    "20001": {
-        "highBaseModifier": 100,
-        "lowBaseModifier": 85,
-        "agentName": "Agent Washington"
-    }
-};
-
-  
-  /**
-   * Modifier values for different types of dental practices. Each practice type
-   * has a multiplier that affects the valuation calculation.
-   */
-  const practiceTypeModifiers = {
-    "general": 1.0,
-    "orthodontics": 1.2,
-    "pediatric": 1.1,
-    "cosmetic": 1.3,
-    "endodontics": 1.2,
-    "oral_surgery": 1.4
-    // ... add more practice types and their corresponding modifiers as needed
-  };
-  
-
- ---------
-  
-  document.getElementById('overheadPercentage').addEventListener('input', function() {
-    document.getElementById('overheadPercentageValue').innerText = this.value + '%';
-    updateValuation();
-});
-
-// Existing data structures and event listeners remain the same.
-
-function calculateValuation() {
-    const collections = parseFloat(document.getElementById('collections').value);
-    const zipCode = document.getElementById('zipCode').value;
-    const practiceType = document.getElementById('practiceType').value;
-    const overheadPercentage = parseFloat(document.getElementById('overheadPercentage').value) / 100;
-
-    if (isNaN(collections) || isNaN(overheadPercentage)) {
-      alert("Please enter valid collections and overhead percentage.");
-      return;
+// Fetch practice types from JSON file
+fetch("practiceTypes.json")
+  .then((response) => response.json())
+  .then((practiceTypes) => {
+    const practiceTypeSelect = document.getElementById("practiceType");
+    for (const practiceType of Object.keys(practiceTypes)) {
+      const optionElement = document.createElement("option");
+      optionElement.innerHTML = practiceType;
+      optionElement.value = practiceType;
+      practiceTypeSelect.appendChild(optionElement);
     }
 
-    const valuationData = calculateValuationData(collections, zipCode, practiceType, overheadPercentage);
+    // Fetch data from JSON file
+    document
+      .getElementById("calculator")
+      .addEventListener("submit", function (event) {
+        event.preventDefault();
 
-    displayResults(...valuationData);
+        var zipCode = document.getElementById("zipCode").value;
+        var annualCollections =
+          document.getElementById("annualCollections").value;
+        var practiceType = document.getElementById("practiceType").value;
+        var overheadPercentageInput =
+          document.getElementById("overheadPercentageInput").value / 100; // Convert to decimal
 
-    // Set the URL for the agent bio, if the agent is available
-    if (valuationData[4] !== 'We do not currently service this area.') {
-      const agentBioUrl = "path_to_agent_bios/" + valuationData[4].replace(" ", "_").toLowerCase() + ".html";
-      document.getElementById('agentInfo').setAttribute('hx-get', agentBioUrl);
-    }
-}
+        // Validate inputs
+        if (
+          !zipCode ||
+          !annualCollections ||
+          !practiceType ||
+          !overheadPercentageInput
+        ) {
+          alert("All fields must be filled out.");
+          return;
+        }
 
-function updateValuation() {
-    const collections = parseFloat(document.getElementById('collections').value);
-    const zipCode = document.getElementById('zipCode').value;
-    const practiceType = document.getElementById('practiceType').value;
-    const overheadPercentage = parseFloat(document.getElementById('overheadPercentage').value) / 100;
+        fetch("data.json")
+          .then((response) => response.json())
+          .then((data) => {
+            // Find the corresponding zip code data
+            let zipData = data[zipCode];
 
-    const valuationData = calculateValuationData(collections, zipCode, practiceType, overheadPercentage);
+            // Check if zip code exists
+            if (!zipData) {
+              alert("We don't currently service that area.");
+              return;
+            }
 
-    displayResults(...valuationData);
-}
+            // Calculate the estimated values
+            let baseRateShift = practiceTypes[practiceType].shift;
+            let lowBase = zipData.lowBase + baseRateShift;
+            let highBase = zipData.highBase + baseRateShift;
+            let profitMultipleLow = 1.5;
+            let profitMultipleHigh = 2.5;
 
-function calculateValuationData(collections, zipCode, practiceType, overheadPercentage) {
-    const zipCodeInfo = zipCodeData[zipCode];
-    let highBaseModifier = 0, lowBaseModifier = 0, agentName = 'We do not currently service this area.';
+            let lowRangeStandard = annualCollections * lowBase;
+            let highRangeStandard = annualCollections * highBase;
+            let overheadPercentage = overheadPercentageInput;
+            let overheadValue = annualCollections * overheadPercentageInput;
+            let profitPercentage = 1 - overheadPercentage;
+            let profitValue = annualCollections * profitPercentage;
 
-    if (zipCodeInfo) {
-      highBaseModifier = zipCodeInfo.highBaseModifier / 100;
-      lowBaseModifier = zipCodeInfo.lowBaseModifier / 100;
-      agentName = zipCodeInfo.agentName;
-    }
+            let lowRangeProfit = profitValue * profitMultipleLow;
+            let highRangeProfit = profitValue * profitMultipleHigh;
 
-    const practiceTypeModifier = practiceTypeModifiers[practiceType] || 1;
+            let lowEstimate = (lowRangeStandard + lowRangeProfit) / 2;
+            let highEstimate = (highRangeStandard + highRangeProfit) / 2;
 
-    const highValuation = collections * highBaseModifier * overheadPercentage * practiceTypeModifier;
-    const lowValuation = collections * lowBaseModifier * overheadPercentage * practiceTypeModifier;
-    const profitHigh = highValuation * (1 - overheadPercentage);
-    const profitLow = lowValuation * (1 - overheadPercentage);
-
-    return [highValuation, lowValuation, profitHigh, profitLow, agentName];
-}
-
-function displayResults(highValuation, lowValuation, profitHigh, profitLow, agentName) {
-    document.getElementById('highValuationResult').innerText = 'High Valuation: $' + highValuation.toLocaleString();
-    document.getElementById('lowValuationResult').innerText = 'Low Valuation: $' + lowValuation.toLocaleString();
-    document.getElementById('profitHighResult').innerText = 'High Profit: $' + profitHigh.toLocaleString();
-    document.getElementById('profitLowResult').innerText = 'Low Profit: $' + profitLow.toLocaleString();
-    document.getElementById('agentInfo').innerText = agentName;
-
-    // Show results
-    document.getElementById('highValuationResult').style.display = 'block';
-    document.getElementById('lowValuationResult').style.display = 'block';
-    document.getElementById('profitHighResult').style.display = 'block';
-    document.getElementById('profitLowResult').style.display = 'block';
-    document.getElementById('agentInfo').style.display = 'block';
-}
-
-/**
-* Resets the form and hides the result and agent information.
-*/
-function resetForm() {
- document.getElementById('valuationForm').style.display = 'block';
- document.getElementById('valuationResult').innerText = '';
- document.getElementById('valuationResult').style.display = 'none';
- document.getElementById('agentInfo').innerText = '';
- document.getElementById('agentInfo').style.display = 'none';
- document.getElementById('backButton').style.display = 'none';
-}
+            // Display the results
+            document.getElementById("estimatedValueHigh").innerText =
+              highEstimate.toFixed(2);
+            document.getElementById("estimatedValueLow").innerText =
+              lowEstimate.toFixed(2);
+            document.getElementById("lowBase").innerText = lowBase.toFixed(2);
+            document.getElementById("highBase").innerText = highBase.toFixed(2);
+            document.getElementById("profitMultipleLow").innerText =
+              profitMultipleLow.toFixed(2);
+            document.getElementById("profitMultipleHigh").innerText =
+              profitMultipleHigh.toFixed(2);
+            document.getElementById("overhead").innerText =
+              overheadValue.toFixed(2);
+            document.getElementById("profitValue").innerText =
+              profitValue.toFixed(2);
+            document.getElementById("profitPercentage").innerText =
+              profitPercentage.toFixed(2);
+            document.getElementById("highProfitRange").innerText =
+              highRangeProfit.toFixed(2);
+            document.getElementById("lowProfitRange").innerText =
+              lowRangeProfit.toFixed(2);
+            document.getElementById("lowEstimate").innerText =
+              lowEstimate.toFixed(2);
+            document.getElementById("highEstimate").innerText =
+              highEstimate.toFixed(2);
+            document.getElementById("practiceTypeShift").innerText =
+              baseRateShift.toFixed(2);
+            document.getElementById("overheadPercentage").innerText =
+              overheadPercentage.toFixed(2);
+          })
+          .catch((error) => console.error("Error:", error));
+      });
+  })
+  .catch((error) => console.error("Error-PracticeTypes:", error));

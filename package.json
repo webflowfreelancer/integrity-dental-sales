@@ -1,4 +1,4 @@
-  {
+{
   "name": "html-css",
   "version": "1.0.0",
   "description": "A template for HTML and CSS",
@@ -14,5 +14,8 @@
   "license": "MIT",
   "devDependencies": {
     "serve": "^11.2.0"
+  },
+  "dependencies": {
+    "jsdelivr-cdn-data": "1.0.4"
   }
 }
