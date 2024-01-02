@@ -1,5 +1,7 @@
 // Fetch practice types from JSON file
-fetch("practiceTypes.json")
+fetch(
+  "https://github.com/webflowfreelancer/integrity-dental-sales/blob/main/practiceTypes.json",
+)
   .then((response) => response.json())
   .then((practiceTypes) => {
     const practiceTypeSelect = document.getElementById("practiceType");
@@ -34,7 +36,9 @@ fetch("practiceTypes.json")
           return;
         }
 
-        fetch("data.json")
+        fetch(
+          "https://github.com/webflowfreelancer/integrity-dental-sales/blob/main/data.json",
+        )
           .then((response) => response.json())
           .then((data) => {
             // Find the corresponding zip code data
