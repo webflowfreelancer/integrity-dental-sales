@@ -16,18 +16,18 @@
     <select id="practiceType" name="practiceType">
     </select><br>
     <label for="overheadPercentageInput">Overhead Percentage:</label><br>
-    <input type="number" id="overheadPercentageInput" name="overheadPercentageInput"><br>
+    <input type="range"min="0" max="100" step="5" id="overheadPercentageInput" name="overheadPercentageInput"><br>
     <input type="submit" value="Calculate">
  </form>
  <div id="result">
-   <h2>Estimated Value</h2>
+   <div class="text-style-muted"> 
    <h3>Multipliers and Modifiers</h3> 
      <p>Low Base Multiplier: <span id="lowBase"></span></p>
      <p>High Base Multiplier: <span id="highBase"></span></p>
      <p>Practice Type Shift: <span id="practiceTypeShift"></span></p>
      <p>Profit Multiple (Low): <span id="profitMultipleLow"></span></p>
      <p>Profit Multiple (High): <span id="profitMultipleHigh"></span></p>
-   <h3>Calculated Fields (For Testing Only)</h3> 
+    <h3>Calculated Fields (For Testing Only)</h3> 
     <p>Overhead Percentage: <span id="overheadPercentage"></span></p>
     <p>Overhead Amount: <span id="overhead"></span></p>
     <p>Profit Amount: <span id="profitValue"></span></p>
@@ -36,9 +36,10 @@
     <p>High Range (Standard): <span id="estimatedValueHigh"></span></p>
     <p>Low Range (Profit): <span id="lowProfitRange"></span></p>
     <p>High Range (Profit): <span id="highProfitRange"></span></p>
+   </div>
    <h3>Displayed Results</h3> 
-    <p>Displayed Low Estimate: <span id="lowEstimate"></span></p>
-    <p>Displayed High Estimate: <span id="highEstimate"></span></p>
+    <h4>Displayed Low Estimate: <span id="lowEstimate"></span></h4>
+    <h4>Displayed High Estimate: <span id="highEstimate"></span></h4>
  </div>
  
 
