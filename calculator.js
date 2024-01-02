@@ -1,6 +1,6 @@
 // Fetch practice types from JSON file
 fetch(
-  "https://github.com/webflowfreelancer/integrity-dental-sales/blob/main/practiceTypes.json",
+  "https://cdn.jsdelivr.net/gh/webflowfreelancer/integrity-dental-sales@8f859d55cb1123c9a65dbb9eadc2da095093d0c2/practiceTypes.json",
 )
   .then((response) => response.json())
   .then((practiceTypes) => {
