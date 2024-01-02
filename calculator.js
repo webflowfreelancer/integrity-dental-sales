@@ -37,7 +37,7 @@ fetch(
         }
 
         fetch(
-          "https://github.com/webflowfreelancer/integrity-dental-sales/blob/main/data.json",
+          "https://cdn.jsdelivr.net/gh/webflowfreelancer/integrity-dental-sales/data.json",
         )
           .then((response) => response.json())
           .then((data) => {
